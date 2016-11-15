@@ -1,0 +1,1 @@
+ spark-submit --class org.fileparser.FileSpliter ./target/first-example-1.0-SNAPSHOT.jar ./prod.txt ./filep1
