@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class FileSplitJoin {
+public class FileSplitJoinBackup {
   public static void main(String[] args) {
 
 	System.out.println("**************************************************************start**********");
@@ -66,28 +66,25 @@ public class FileSplitJoin {
     		});
 
        	JavaPairRDD<String, String> ps_xrefPairs = ps_xrefData.mapToPair(new PairFunction<String, String, String>() {
-            	public Tuple2<String, String > call(String s) {
+            	public Tuple2<String, String> call(String s) {
                 	String[] ps_xrefSplit = s.split(",");
-                return new Tuple2<String, String >(ps_xrefSplit[3], ps_xrefSplit[0]+","+ ps_xrefSplit[1]+","+ ps_xrefSplit[2]); //+","+ ps_xrefSplit[3]+","+ ps_xrefSplit[4]);
+                return new Tuple2<String, String>(ps_xrefSplit[3], ps_xrefSplit[0]+","+ ps_xrefSplit[1]+","+ ps_xrefSplit[2]); //+","+ ps_xrefSplit[3]+","+ ps_xrefSplit[4]);
             	}});//.distinct();
 	System.out.println("*********************************************test");
 
-	JavaRDD<String> lines = sc.textFile(logFile);
-	JavaPairRDD<String, Integer> pairs = lines.mapToPair(s -> new Tuple2(s, 1));
-	JavaPairRDD<String, Integer> counts = pairs.reduceByKey((a, b) -> a + b);
-	
-	counts.saveAsTextFile(args[1]+"_count");
-
+	//JavaRDD<String> lines = sc.textFile(logFile);
+	//JavaPairRDD<String, Integer> pairs = lines.mapToPair(s -> new Tuple2(s, 1));
+	//JavaPairRDD<String, Integer> counts = pairs.reduceByKey((a, b) -> a + b);
 	System.out.println("*********************************************JOIN");
 
-//	JavaPairRDD<String, Tuple2<String, String>> joinsOutput = ps_xrefPairs.join(bankPairs);
-//	System.out.println("Joins function Output: "+joinsOutput.collect());
+	JavaPairRDD<String, Tuple2<String, String>> joinsOutput = ps_xrefPairs.join(bankPairs);
+	System.out.println("Joins function Output: "+joinsOutput.collect());
 	
 
-//	prodPairs.saveAsTextFile(args[1]+"_prod");
-//	bankPairs.saveAsTextFile(args[1]+"_bank");
-//	ps_xrefPairs.saveAsTextFile(args[1]+"_psxref");
-//	joinsOutput.saveAsTextFile(args[1]+"_join");
+	prodPairs.saveAsTextFile(args[1]+"_prod");
+	bankPairs.saveAsTextFile(args[1]+"_bank");
+	ps_xrefPairs.saveAsTextFile(args[1]+"_psxref");
+	joinsOutput.saveAsTextFile(args[1]+"_join");
 
 		
 //	logData.saveAsTextFile(args[1]);
