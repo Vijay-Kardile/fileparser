@@ -1,0 +1,3 @@
+./bin/storm nimbus
+
+./bin/storm supervisor
