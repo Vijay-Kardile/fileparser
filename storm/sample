@@ -5,7 +5,10 @@ java -cp target/storm-kafka-0.8-plus-test-0.2.0-SNAPSHOT-jar-with-dependencies.j
 java -cp target/storm-kafka-0.8-plus-test-0.2.0-SNAPSHOT-jar-with-dependencies.jar storm.kafka.KafkaSpoutTestTopology localhost:2181
 
 
----20 NOV
-java -cp target/storm-kafka-0.8-plus-test-0.2.0-SNAPSHOT-jar-with-dependencies.jar storm.kafka.tools.StormProducer localhost:2181
+---21 NOV
+--working
+/usr/local/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --topic source_vk --partitions 1 --replication-factor 1
+/usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic source_vk
+/usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic source_vk --from-beginning
 
- java -cp ./target/storm-kafka-0.8-plus-test-0.2.0-SNAPSHOT-jar-with-dependencies.jar storm.kafka.KafkaSpoutTestTopology localhost:2181
+java -cp ./target/storm-kafka-0.8-plus-test-0.2.0-SNAPSHOT-jar-with-dependencies.jar storm.kafka.KafkaSpoutTestTopology localhost:2181
